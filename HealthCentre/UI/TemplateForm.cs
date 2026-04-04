@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 
 namespace HealthCentre.UI
 {
@@ -8,6 +9,12 @@ namespace HealthCentre.UI
         {
             ConfigureUI(title);
         }
+
+        public TemplateForm(string title, string username)
+            : this($"Пользователь: {username}"
+            + Environment.NewLine
+            + title)
+        { }
 
         protected virtual void ConfigureUI(string title)
         {

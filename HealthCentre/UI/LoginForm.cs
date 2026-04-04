@@ -29,6 +29,16 @@ namespace HealthCentre.UI
             Show();
         }
 
+        private void Login(User user)
+        {
+            var group = user.Role.ToGroup();
+            var form = new MainForm(group.GetPermissions(), user.Login);
+
+            Hide();
+            form.ShowDialog(this);
+            Show();
+        }
+
         private void LoginButton_Click(object sender, EventArgs e)
         {
             using (var context = new HealthCentreModel())
@@ -48,7 +58,7 @@ namespace HealthCentre.UI
                     return;
                 }
 
-                Login(currentUser.Role.ToGroup());
+                Login(currentUser);
             }
         }
 

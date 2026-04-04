@@ -10,12 +10,32 @@ namespace HealthCentre.UI
 {
     public partial class MainForm : TemplateForm
     {
+        public const string Title = "Главная страница";
+
         private readonly Gender AnyGender = new Gender() { Name = "Все" };
         private readonly Permissions Permissions;
 
         private Func<IQueryable<Patient>, IOrderedQueryable<Patient>> Order { get; set; } = null;
 
-        public MainForm(Permissions permissions) : base("Главная страница")
+        public MainForm(Permissions permissions) : base(Title)
+        {
+            Permissions = permissions;
+            ApplyPermissions(Permissions);
+
+            using (var context = new HealthCentreModel())
+            {
+                var genders = context.Gender.AsNoTracking()
+                    .Prepend(AnyGender).ToList();
+
+                GenderComboBox.DataSource = genders;
+                GenderComboBox.DisplayMember = nameof(Gender.Name);
+                GenderComboBox.ValueMember = GenderComboBox.DisplayMember;
+            }
+
+            DisplayPatients();
+        }
+
+        public MainForm(Permissions permissions, string username) : base(Title, username)
         {
             Permissions = permissions;
             ApplyPermissions(Permissions);

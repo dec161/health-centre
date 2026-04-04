@@ -25,6 +25,7 @@ namespace HealthCentre.UI
                 $"Фамилия: {{0}}{Environment.NewLine}" +
                 $"Имя: {{1}}{Environment.NewLine}" +
                 $"Отчество: {{2}}{Environment.NewLine}", Patient.Name.Split()) +
+                $"Пол: {Patient.Gender.Name}{Environment.NewLine}" +
                 Environment.NewLine +
                 $"Страховой полис: {Patient.InsuranceCertificate}";
 
@@ -64,7 +65,7 @@ namespace HealthCentre.UI
 
         private bool IsOutdated(DateTime dateTime)
         {
-            return (DateTime.Now - dateTime).Days > 365;
+            return (DateTime.Now - dateTime).TotalDays > 365.0;
         }
     }
 }
